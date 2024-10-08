@@ -1,0 +1,53 @@
+import requests
+import base64
+from main import *
+
+def upload():
+    with open("guia.pdf", 'rb') as file:
+        encoded_file = base64.b64encode(file.read()).decode('utf-8')
+        url_upload = "https://b24-r50tso.bitrix24.com.br/rest/1/qcjngtkucnuosey4/crm.deal.update.json"
+        
+        card = requests.post(
+                url_upload, 
+                headers={'Content-Type': 'application/json'}, 
+                json={"ID": "12558", "fields": {
+                    "UF_CRM_1727210242545": {'fileData': ['arquivo.pdf', encoded_file]} }}
+        )
+
+    print(card.text)
+
+def busca():
+    url_upload = "https://b24-r50tso.bitrix24.com.br/rest/1/qcjngtkucnuosey4/crm.deal.get.json"
+    card = requests.post(
+                url_upload, 
+                headers={'Content-Type': 'application/json'}, 
+                json={"ID": "12558"}
+    )
+
+    print(card.text)
+
+def outro():
+    url = "https://b24-r50tso.bitrix24.com.br/rest/1/qcjngtkucnuosey4/disk.file.getExternalLink"
+    card = requests.post(url, json={'id': 17136})
+
+    print(card.text)
+
+def main():
+    url_bitrix = "https://b24-r50tso.bitrix24.com.br/rest/1/qcjngtkucnuosey4/crm.deal.get.json"
+    card = requests.post(
+        url_bitrix, 
+        headers={'Content-Type': 'application/json'},
+        json={"ID": "12558"}
+    ).json()["result"]
+
+    caminho = gerar_declaracao.gerar_declaracao(card)
+    laudo = gerar_laudo.gerar_laudo(card)
+
+    func.upload_files("12558", [{"caminho": caminho, "campo": "UF_CRM_1728310643", "nome": "declaracao"}, 
+        {"caminho": laudo, "campo": "UF_CRM_1727210242545", "nome": "laudo"}])
+
+if __name__ == "__main__":
+    main()
+
+
+
