@@ -11,7 +11,7 @@ async def gerar_relatorios(id: str):
             url_bitrix, 
             headers={'Content-Type': 'application/json'},
             json={"ID": id}
-        )
+        ).json()
     except requests.exceptions.HTTPError as http_err:
         raise HTTPException(status_code=500, detail=f"Erro HTTP ao conectar com Bitrix24: {http_err}")
     except requests.exceptions.RequestException as err:
