@@ -4,6 +4,7 @@ import requests, func, gerar_declaracao, gerar_laudo
 app = FastAPI()
 
 @app.get('/gerar-relatorios/{id}')
+@app.post('/gerar-relatorios/{id}')
 async def gerar_relatorios(id: str):
     try:
         url_bitrix = "https://b24-r50tso.bitrix24.com.br/rest/1/qcjngtkucnuosey4/crm.deal.get.json"
