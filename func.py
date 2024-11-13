@@ -7,8 +7,8 @@ from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
 URL_RAIZ = "https://b24-r50tso.bitrix24.com.br/rest/"
-CRIPTO_KEY = os.getenv("CRIPTO_KEY")
-F = Fernet(bytes(CRIPTO_KEY,"utf-8"))
+CRIPTO_KEY = bytes(os.getenv("CRIPTO_KEY"),"utf-8")
+F = Fernet(CRIPTO_KEY)
 
 def get_card(id) -> dict:
     acess_token = get_acess_token()
