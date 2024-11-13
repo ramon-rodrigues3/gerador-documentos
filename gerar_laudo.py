@@ -1,7 +1,6 @@
 from fpdf import FPDF
 from io import BytesIO
 from func import *
-import urllib.request
 
 def gerar_laudo(card):
     laudo = FPDF(format="A4")
