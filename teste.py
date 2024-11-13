@@ -1,6 +1,7 @@
 import requests
 import base64
 from main import *
+from cryptography.fernet import Fernet
 
 def upload():
     with open("guia.pdf", 'rb') as file:
@@ -34,11 +35,14 @@ def outro():
 
 def main():
     url_bitrix = "https://b24-r50tso.bitrix24.com.br/rest/1/qcjngtkucnuosey4/crm.deal.get.json"
-    card = requests.post(
+    
+    """card = requests.post(
         url_bitrix, 
         headers={'Content-Type': 'application/json'},
         json={"ID": "12558"}
-    ).json()["result"]
+    ).json()["result"]"""
+
+    card = func.get_card("12558")
 
     caminho = gerar_declaracao.gerar_declaracao(card)
     laudo = gerar_laudo.gerar_laudo(card)
@@ -48,6 +52,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
