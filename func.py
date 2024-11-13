@@ -1,14 +1,9 @@
 import requests
 import base64
 import datetime as dt
-import os
-from cryptography.fernet import Fernet
-from dotenv import load_dotenv, find_dotenv
 
-load_dotenv(find_dotenv())
 URL_RAIZ = "https://b24-r50tso.bitrix24.com.br/rest/"
-CRIPTO_KEY = bytes(os.getenv("CRIPTO_KEY"),"utf-8")
-F = Fernet(CRIPTO_KEY)
+refresh_token = ""
 
 def get_card(id) -> dict:
     acess_token = get_acess_token()
@@ -42,17 +37,13 @@ def get_acess_token() -> str:
     raise Exception("Erro de execução")
 
 def get_refresh_token() -> str:
-    token_encriptado = open("refresh_key.txt", 'r').read()
-    byte_token = F.decrypt(token_encriptado)
-    return bytes(byte_token).decode("utf-8")
+    if refresh_token != "":
+        return refresh_token
+    raise ValueError("A aplicação precisa de permissão")
 
 def refresh_token_update(token: str) -> None:
-    byte_token = bytes(token, "utf-8")
-    token_encriptado = F.encrypt(byte_token)
-    with open("refresh_key.txt", "w") as file:
-        file.flush()
-        file.write(token_encriptado)
-        file.close()
+    global refresh_token
+    refresh_token = token
 
 def upload_files(id, lista) -> None:
     acess_token = get_acess_token()

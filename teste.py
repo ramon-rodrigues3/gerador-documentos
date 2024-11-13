@@ -1,7 +1,6 @@
 import requests
 import base64
 from main import *
-from cryptography.fernet import Fernet
 
 def upload():
     with open("guia.pdf", 'rb') as file:
