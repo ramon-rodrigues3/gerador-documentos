@@ -33,7 +33,7 @@ def get_acess_token() -> str:
     if response.status_code == 200:
         dados = response.json()
         refresh_token_update(dados["refresh_token"])
-        return dados["acess_token"]
+        return dados["access_token"]
     raise Exception("Erro de execução")
 
 def get_refresh_token() -> str:
