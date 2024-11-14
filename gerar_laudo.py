@@ -69,15 +69,17 @@ def gerar_laudo(card):
     laudo.image('imagens/termo-de-garantia.png', "C")
     laudo.image('imagens/como-instalar.png', "C")
     laudo.image('imagens/como-instalar-2.png', "C")
+    laudo.multi_cell(0, 12.7, "", 0, "C", markdown=True, ln=1)
 
     imagens_ocorrido = ["UF_CRM_1727204248815", "UF_CRM_1727976978826", "UF_CRM_1727976993920", "UF_CRM_1727977009520", "UF_CRM_1727977032584"]
 
     for codigo in imagens_ocorrido:
-        url = "https://b24-r50tso.bitrix24.com.br" + (card[codigo]["downloadUrl"]) #.replace('\/', '/' )
-        response = requests.get(url)
-        imagem = BytesIO(response.content)
+        if codigo in card.keys():
+            url = "https://b24-r50tso.bitrix24.com.br" + (card[codigo]["downloadUrl"]) #.replace('\/', '/' )
+            response = requests.get(url)
+            imagem = BytesIO(response.content)
 
-        laudo.image(imagem, "C", w=laudo.epw / 1.2)
+            laudo.image(imagem, "C", w=laudo.epw)
 
     arquivo = BytesIO()
     laudo.output(arquivo)
