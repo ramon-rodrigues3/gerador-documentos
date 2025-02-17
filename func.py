@@ -54,13 +54,18 @@ def get_refresh_token(db: Session = Depends(get_db)) -> str:
     try:
         token = db.execute(text("SELECT token FROM bitrix_refresh_tokens WHERE id = 1")).scalar()
         if not token:
-            raise ValueError("A aplicação precisa de permissão")
+            raise HTTPException(
+                status_code=403, 
+                detail="A aplicação precisa de permissão"
+            )
         return token
-    finally:
-        db.close()
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, 
+            detail=f"Erro ao buscar token: {str(e)}"
+        )
 
-
-def refresh_token_update(new_token: str, db: Session = Depends(get_db())) -> None:
+def refresh_token_update(new_token: str, db: Session = Depends(get_db)) -> None:
     try:
         result = db.execute(
             text("SELECT token FROM bitrix_refresh_tokens WHERE id = 1")
@@ -83,11 +88,8 @@ def refresh_token_update(new_token: str, db: Session = Depends(get_db())) -> Non
         db.rollback()
         raise HTTPException(
             status_code=500, 
-            detail=f"Falha ao atualizar token: {str(e)}"
+            detail="Falha ao atualizar token"
         )
-    
-    finally:
-        db.close()
 
 def upload_files(id, lista) -> None:
     acess_token = get_acess_token()
