@@ -41,6 +41,5 @@ async def receber_autorizacao(code: str, state: str, domain: str, member_id: str
 
     retorno = requests.get(url)
     token = retorno.json()["refresh_token"]
-    #func.refresh_token_update(token)
-
+    func.refresh_token_update(token)
     return HTMLResponse(open("pages/sucess.html").read())

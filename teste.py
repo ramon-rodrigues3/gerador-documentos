@@ -1,6 +1,7 @@
 import requests
 import base64
 from main import *
+from func import *
 
 def upload():
     with open("guia.pdf", 'rb') as file:
@@ -33,21 +34,23 @@ def outro():
     print(card.text)
 
 def main():
-    url_bitrix = "https://b24-r50tso.bitrix24.com.br/rest/1/qcjngtkucnuosey4/crm.deal.get.json"
+    # url_bitrix = "https://b24-r50tso.bitrix24.com.br/rest/1/qcjngtkucnuosey4/crm.deal.get.json"
     
-    """card = requests.post(
-        url_bitrix, 
-        headers={'Content-Type': 'application/json'},
-        json={"ID": "12558"}
-    ).json()["result"]"""
+    # """card = requests.post(
+    #     url_bitrix, 
+    #     headers={'Content-Type': 'application/json'},
+    #     json={"ID": "12558"}
+    # ).json()["result"]"""
 
-    card = func.get_card("12558")
+    # card = func.get_card("12558")
 
-    caminho = gerar_declaracao.gerar_declaracao(card)
-    laudo = gerar_laudo.gerar_laudo(card)
+    # caminho = gerar_declaracao.gerar_declaracao(card)
+    # laudo = gerar_laudo.gerar_laudo(card)
 
-    func.upload_files("12558", [{"caminho": caminho, "campo": "UF_CRM_1728310643", "nome": "declaracao"}, 
-        {"caminho": laudo, "campo": "UF_CRM_1727210242545", "nome": "laudo"}])
+    # func.upload_files("12558", [{"caminho": caminho, "campo": "UF_CRM_1728310643", "nome": "declaracao"}, 
+    #     {"caminho": laudo, "campo": "UF_CRM_1727210242545", "nome": "laudo"}])
+
+    get_refresh_token()
 
 if __name__ == "__main__":
     main()

@@ -4,7 +4,14 @@ import datetime as dt
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import Session, sessionmaker
 from fastapi import Depends, HTTPException
+from dotenv import load_dotenv, find_dotenv
 from os import environ
+import logging
+
+load_dotenv(find_dotenv())
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 ROOT_URL = environ.get("ROOT_URL")
 DB_URL = environ.get("DB_URL")
@@ -50,7 +57,8 @@ def get_acess_token() -> str:
         return dados["access_token"]
     raise Exception("Erro de execução")
 
-def get_refresh_token(db: Session = Depends(get_db)) -> str:
+def get_refresh_token() -> str:
+    db: Session = SessionLocal()
     try:
         token = db.execute(text("SELECT token FROM bitrix_refresh_tokens WHERE id = 1")).scalar()
         if not token:
@@ -64,8 +72,11 @@ def get_refresh_token(db: Session = Depends(get_db)) -> str:
             status_code=500, 
             detail=f"Erro ao buscar token: {str(e)}"
         )
+    finally:
+        db.close()
 
-def refresh_token_update(new_token: str, db: Session = Depends(get_db)) -> None:
+def refresh_token_update(new_token: str) -> None:
+    db = SessionLocal()
     try:
         result = db.execute(
             text("SELECT token FROM bitrix_refresh_tokens WHERE id = 1")
@@ -90,6 +101,8 @@ def refresh_token_update(new_token: str, db: Session = Depends(get_db)) -> None:
             status_code=500, 
             detail="Falha ao atualizar token"
         )
+    finally:
+        db.close()
 
 def upload_files(id, lista) -> None:
     acess_token = get_acess_token()
