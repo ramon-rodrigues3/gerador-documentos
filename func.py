@@ -1,13 +1,20 @@
 import requests
 import base64
 import datetime as dt
+from sqlalchemy import create_engine, text
+from sqlalchemy.orm import sessionmaker
+from fastapi import Depends, HTTPException
+from os import environ
 
-URL_RAIZ = "https://b24-r50tso.bitrix24.com.br/rest/"
-refresh_token = ""
+ROOT_URL = environ.get("ROOT_URL")
+DB_URL = environ.get("DB_URL")
+
+engine = create_engine(DB_URL, pool_pre_ping=True)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 def get_card(id) -> dict:
     acess_token = get_acess_token()
-    url_bitrix = URL_RAIZ + "crm.deal.get.json"
+    url_bitrix = ROOT_URL + "crm.deal.get.json"
 
     response = requests.post(
         url_bitrix, 
@@ -37,13 +44,43 @@ def get_acess_token() -> str:
     raise Exception("Erro de execução")
 
 def get_refresh_token() -> str:
-    if refresh_token != "":
-        return refresh_token
-    raise ValueError("A aplicação precisa de permissão")
+    db = SessionLocal()
+    try:
+        token = db.execute("SELECT token FROM bitrix_refresh_tokens WHERE id = 1").scalar()
+        if not token:
+            raise ValueError("A aplicação precisa de permissão")
+        return token
+    finally:
+        db.close()
 
-def refresh_token_update(token: str) -> None:
-    global refresh_token
-    refresh_token = token
+def refresh_token_update(new_token: str, db = Depends(SessionLocal)) -> None:
+    try:
+        result = db.execute(
+            text("SELECT token FROM bitrix_refresh_tokens WHERE id = 1")
+        ).fetchone()
+
+        if result:
+            db.execute(
+                text("UPDATE bitrix_refresh_tokens SET token = :token WHERE id = 1"),
+                {"token": new_token}
+            )
+        else:
+            db.execute(
+                text("INSERT INTO bitrix_refresh_tokens (id, token) VALUES (1, :token)"),
+                {"token": new_token}
+            )
+        
+        db.commit()
+
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=500, 
+            detail=f"Falha ao atualizar token: {str(e)}"
+        )
+    
+    finally:
+        db.close()
 
 def upload_files(id, lista) -> None:
     acess_token = get_acess_token()
@@ -53,7 +90,7 @@ def upload_files(id, lista) -> None:
         file = arquivo["caminho"]
         encoded_file = base64.b64encode(file.read()).decode('utf-8')
 
-        url_upload = URL_RAIZ + "crm.deal.update.json"
+        url_upload = ROOT_URL + "crm.deal.update.json"
         response = requests.post(
                 url_upload, 
                 headers={'Content-Type': 'application/json'}, 
