@@ -60,7 +60,7 @@ def get_refresh_token(db: Session = Depends(get_db)) -> str:
         db.close()
 
 
-def refresh_token_update(new_token: str, db: Session = Depends(get_db)) -> None:
+def refresh_token_update(new_token: str, db: Session = Depends(get_db())) -> None:
     try:
         result = db.execute(
             text("SELECT token FROM bitrix_refresh_tokens WHERE id = 1")
