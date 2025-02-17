@@ -2,7 +2,7 @@ import requests
 import base64
 import datetime as dt
 from sqlalchemy import create_engine, text
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import Session, sessionmaker
 from fastapi import Depends, HTTPException
 from os import environ
 
@@ -11,6 +11,13 @@ DB_URL = environ.get("DB_URL")
 
 engine = create_engine(DB_URL, pool_pre_ping=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 def get_card(id) -> dict:
     acess_token = get_acess_token()
@@ -43,17 +50,17 @@ def get_acess_token() -> str:
         return dados["access_token"]
     raise Exception("Erro de execução")
 
-def get_refresh_token() -> str:
-    db = SessionLocal()
+def get_refresh_token(db: Session = Depends(get_db)) -> str:
     try:
-        token = db.execute("SELECT token FROM bitrix_refresh_tokens WHERE id = 1").scalar()
+        token = db.execute(text("SELECT token FROM bitrix_refresh_tokens WHERE id = 1")).scalar()
         if not token:
             raise ValueError("A aplicação precisa de permissão")
         return token
     finally:
         db.close()
 
-def refresh_token_update(new_token: str, db = Depends(SessionLocal)) -> None:
+
+def refresh_token_update(new_token: str, db: Session = Depends(get_db)) -> None:
     try:
         result = db.execute(
             text("SELECT token FROM bitrix_refresh_tokens WHERE id = 1")
