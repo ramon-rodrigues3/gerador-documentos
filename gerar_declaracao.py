@@ -16,37 +16,21 @@ def gerar_declaracao(card: dict):
     pdf.set_font('arial', size=12)
 
     pdf.multi_cell(0, line_height,
-        text = f"""Eu, **{card['UF_CRM_1727967417706']}**, inscrito no CPF de n° \
-        **{card['UF_CRM_1727204145431']}**, \
-        residente em **{card["UF_CRM_1727204166054"]}** \
-        declaro estar ciente de que o problema apresentado no reservatório de \
-        **{material_correspondente(card['UF_CRM_1727204729359'])}**, \
-        com capacidade para **{capacidade_correspondente(card['UF_CRM_1727204841910'])}** \
-        , marca FIBRASOL, adquirido através da \
-        compra realizada no estabelecimento **{card['UF_CRM_1727204292663']}**, cujo CNPJ consta \
-        **{card['UF_CRM_1727204337710']}**, foi ocasionado por erro de instalação, razão pela qual \
-        reconheço que a Indústria **não tem qualquer responsabilidade pela \
-        deformação do referido reservatório.**""", 
+        text = f"""Eu, **{card['UF_CRM_1727967417706']}**, inscrito no CPF de n° **{card['UF_CRM_1727204145431']}**, residente em **{card["UF_CRM_1727204166054"]}** declaro estar ciente de que o problema apresentado no reservatório de **{material_correspondente(card['UF_CRM_1727204729359'])}**, com capacidade para **{capacidade_correspondente(card['UF_CRM_1727204841910'])}**, marca FIBRASOL, adquirido através da compra realizada no estabelecimento **{card['UF_CRM_1727204292663']}**, cujo CNPJ consta **{card['UF_CRM_1727204337710']}**, foi ocasionado por erro de instalação, razão pela qual reconheço que a Indústria **não tem qualquer responsabilidade pela deformação do referido reservatório.**""", 
         align="J", markdown=True,
         ln=1)
 
     pdf.cell(0, line_height, "", align="C", markdown=True, ln=1)
 
     pdf.multi_cell(0, line_height, 
-        text=f"**Devido à inexistência de vícios no referido produto**, declaro que aceito a \
-        proposta apresentada, por mera liberalidade, pela empresa **FIBRASOL**, a \
-        qual se dispõe a fazer a troca do produto por outro semelhante (com tampa e \
-        sem custo), com intermédio da empresa revendedora.", 
-        align="J"
+        text=f"**Devido à inexistência de vícios no referido produto**, declaro que aceito a proposta apresentada, por mera liberalidade, pela empresa **FIBRASOL**, a qual se dispõe a fazer a troca do produto por outro semelhante (com tampa e sem custo), com intermédio da empresa revendedora.", 
+        align="J", markdown=True
     )
 
     pdf.cell(0, line_height, "", align="C", markdown=True, ln=1)
 
     pdf.multi_cell(0, line_height, 
-        text=f"""Comprometo-me, desta forma, a seguir as orientações para a instalação do \ 
-        novo reservatório, bem como as normas técnicas previstas na **NBR 5626**, \
-        **NBR 14800**, e as demais expressas no manual de instalação fixado no \
-        produto, cujas cópias também foram entregues a mim nesta oportunidade.""",
+        text=f"Comprometo-me, desta forma, a seguir as orientações para a instalação do novo reservatório, bem como as normas técnicas previstas na **NBR 5626**, **NBR 14800**, e as demais expressas no manual de instalação fixado no produto, cujas cópias também foram entregues a mim nesta oportunidade.",
         align="J", 
         markdown=True,
         ln=1 
@@ -54,14 +38,16 @@ def gerar_declaracao(card: dict):
 
     pdf.cell(0, line_height, "", align="C", markdown=True, ln=1)
 
+    pdf.set_font('arial', size=14)
     pdf.multi_cell(0, line_height, 
-        text=f"{card["UF_CRM_1727204166054"]}-{card["UF_CRM_1728049409"]}, {dt.datetime.now().strftime("%d/%m/%Y")}".upper(),
+        text=f"{card["UF_CRM_1727204166054"]}-{estado_correspondente(card["UF_CRM_1727977680889"])}, {dt.datetime.now().strftime("%d/%m/%Y")}".upper(),
         align="L", 
         markdown=True,
         ln=1 
     )
 
-    pdf.cell(0, 12.7, "", align="C", markdown=True, ln=1)
+    pdf.set_font('arial', size=12)
+    pdf.cell(0, 25.4, "", align="C", markdown=True, ln=1)
 
     pdf.multi_cell(0, line_height, 
         text="____________________________________________________",
@@ -70,6 +56,7 @@ def gerar_declaracao(card: dict):
         ln=1 
     )
 
+    pdf.set_font('arial', size=16)
     pdf.multi_cell(0, line_height, 
         text=f"{card['UF_CRM_1727967417706']}".upper(),
         align="C", 

@@ -216,3 +216,62 @@ def capacidade_correspondente(codigo: str) -> str:
             return "15000 litros"
         case "254":
             return "20000 litros"
+
+def estado_correspondente(codigo: str) -> str:
+    match codigo:
+        case "308":
+            return "Acre"
+        case "310":
+            return "Alagoas"
+        case "312":
+            return "Amapá"
+        case "314":
+            return "Amazonas"
+        case "316":
+            return "Bahia"
+        case "318":
+            return "Ceará"
+        case "320":
+            return "Distrito Federal"
+        case "322":
+            return "Espírito Santo"
+        case "324":
+            return "Goiás"
+        case "326":
+            return "Maranhão"
+        case "328":
+            return "Mato Grosso"
+        case "330":
+            return "Mato Grosso do Sul"
+        case "332":
+            return "Minas Gerais"
+        case "334":
+            return "Pará"
+        case "336":
+            return "Paraíba"
+        case "338":
+            return "Paraná"
+        case "340":
+            return "Pernambuco"
+        case "342":
+            return "Piauí"
+        case "344":
+            return "Rio de Janeiro"
+        case "346":
+            return "Rio Grande do Norte"
+        case "348":
+            return "Rio Grande do Sul"
+        case "350":
+            return "Rondônia"
+        case "352":
+            return "Roraima"
+        case "354":
+            return "Santa Catarina"
+        case "356":
+            return "São Paulo"
+        case "358":
+            return "Sergipe"
+        case "360":
+            return "Tocantins"
+        case _:
+            return ""
