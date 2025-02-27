@@ -15,7 +15,7 @@ def gerar_laudo(card):
 
     laudo.set_font('helvetica', size=12)
 
-    laudo.multi_cell(0, line_height, f'**CONSUMIDOR FINAL (RECLAMANTE):** Sr.(a). {card["UF_CRM_1727967417706"]}, portador do CPF n° {card["UF_CRM_1727204145431"]}, residente na {card["UF_CRM_1727204166054"]}, {card["UF_CRM_1728049409"]}, {card["UF_CRM_1727978206065"]}, {card["UF_CRM_1727978359495"]} - {card["UF_CRM_1727978206065"]}.', 0, "J", markdown=True, ln=1)
+    laudo.multi_cell(0, line_height, f'**CONSUMIDOR FINAL (RECLAMANTE):** Sr.(a). {card["UF_CRM_1727967417706"]}, portador do CPF n° {card["UF_CRM_1727204145431"]}, residente na {card["UF_CRM_1727204166054"]}, {card["UF_CRM_1728049409"]}, {card["UF_CRM_1727978206065"]}, {card["UF_CRM_1727978359495"]} - {estado_correspondente(card["UF_CRM_1727977680889"])}.', 0, "J", markdown=True, ln=1)
 
     laudo.multi_cell(0, line_height, "", 0, "C", markdown=True, ln=1)
 
