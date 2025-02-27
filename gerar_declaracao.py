@@ -9,26 +9,44 @@ def gerar_declaracao(card: dict):
     pdf.set_margin(20.4)
     line_height = 6.35
 
-    pdf.set_font('arial', size=14)
+    pdf.set_font('arial', size=21)
     pdf.cell(0, 12.7, '''**DECLARAÇÃO**''', align="C", markdown=True, ln=1)
     pdf.cell(0, 12.7, "", align="C", markdown=True, ln=1)
 
     pdf.set_font('arial', size=12)
 
     pdf.multi_cell(0, line_height,
-        text = f"Eu, {card['UF_CRM_1727967417706']}, inscrito no CPF sob o n.º {card['UF_CRM_1727204145431']}, por meio deste instrumento, declaro estar ciente de que o problema apresentado no reservatório de {capacidade_correspondente(card['UF_CRM_1727204841910'])} em {material_correspondente(card['UF_CRM_1727204729359'])}, marca Fibrasol, adquirido na {card['UF_CRM_1727204292663']}, empresa inscrita no CNPJ nº {card['UF_CRM_1727204337710']}, foi ocasionado por erro de instalação, razão pela qual reconheço que a indústria Fibrasol não tem qualquer responsabilidade pelo rompimento do referido reservatório.", 
+        text = f"""Eu, **{card['UF_CRM_1727967417706']}**, inscrito no CPF de n° \
+        **{card['UF_CRM_1727204145431']}**, \
+        residente em **{card["UF_CRM_1727204166054"]}** \
+        declaro estar ciente de que o problema apresentado no reservatório de \
+        **{material_correspondente(card['UF_CRM_1727204729359'])}**, \
+        com capacidade para **{capacidade_correspondente(card['UF_CRM_1727204841910'])}** \
+        , marca FIBRASOL, adquirido através da \
+        compra realizada no estabelecimento **{card['UF_CRM_1727204292663']}**, cujo CNPJ consta \
+        **{card['UF_CRM_1727204337710']}**, foi ocasionado por erro de instalação, razão pela qual \
+        reconheço que a Indústria **não tem qualquer responsabilidade pela \
+        deformação do referido reservatório.**""", 
         align="J", markdown=True,
         ln=1)
 
     pdf.cell(0, line_height, "", align="C", markdown=True, ln=1)
 
-    pdf.multi_cell(0, line_height, text=f"Diante da inexistência de vício/defeito de fabricação, declaro que aceito a proposta, feita por mera liberalidade pela empresa Fibrasol, de {card['UF_CRM_1727210375909']}.", align="J"
+    pdf.multi_cell(0, line_height, 
+        text=f"**Devido à inexistência de vícios no referido produto**, declaro que aceito a \
+        proposta apresentada, por mera liberalidade, pela empresa **FIBRASOL**, a \
+        qual se dispõe a fazer a troca do produto por outro semelhante (com tampa e \
+        sem custo), com intermédio da empresa revendedora.", 
+        align="J"
     )
 
     pdf.cell(0, line_height, "", align="C", markdown=True, ln=1)
 
     pdf.multi_cell(0, line_height, 
-        text=f"Comprometo-me a seguir as orientações para a instalação do novo produto, conforme consignado no laudo técnico nº {card.get('ID')}/{get_ano(card.get('DATE_CREATE'))}, bem como as normas técnicas previstas na NBR 5626 e as instruções contidas no manual de instalação, cujas cópias me foram entregues.",
+        text=f"""Comprometo-me, desta forma, a seguir as orientações para a instalação do \ 
+        novo reservatório, bem como as normas técnicas previstas na **NBR 5626**, \
+        **NBR 14800**, e as demais expressas no manual de instalação fixado no \
+        produto, cujas cópias também foram entregues a mim nesta oportunidade.""",
         align="J", 
         markdown=True,
         ln=1 
@@ -37,7 +55,7 @@ def gerar_declaracao(card: dict):
     pdf.cell(0, line_height, "", align="C", markdown=True, ln=1)
 
     pdf.multi_cell(0, line_height, 
-        text=f"Jequié, {formatar_data_por_extenso(dt.datetime.now())}",
+        text=f"{card["UF_CRM_1727204166054"]}-{card["UF_CRM_1728049409"]}, {dt.datetime.now().strftime("%d/%m/%Y")}".upper(),
         align="L", 
         markdown=True,
         ln=1 
@@ -46,47 +64,21 @@ def gerar_declaracao(card: dict):
     pdf.cell(0, 12.7, "", align="C", markdown=True, ln=1)
 
     pdf.multi_cell(0, line_height, 
-        text="_______________________________________",
-        align="L", 
+        text="____________________________________________________",
+        align="C", 
         markdown=True,
         ln=1 
     )
 
     pdf.multi_cell(0, line_height, 
-        text="Assinatura do Cliente",
-        align="L", 
+        text=f"{card['UF_CRM_1727967417706']}".upper(),
+        align="C", 
         markdown=True,
         ln=1 
     )
-
-    pdf.cell(0, 12.7, "", align="C", markdown=True, ln=1)
-
     pdf.multi_cell(0, line_height, 
-        text="Recebi o novo produto em perfeito estado na data ",
-        align="L", 
-        markdown=True,
-        ln=1 
-    )
-
-    pdf.multi_cell(0, 12.7, 
-        text="_______/___________________/_______",
-        align="L", 
-        markdown=True,
-        ln=1 
-    )
-
-    pdf.cell(0, line_height, "", align="C", markdown=True, ln=1)
-
-    pdf.multi_cell(0, line_height, 
-        text="_______________________________________",
-        align="L", 
-        markdown=True,
-        ln=1 
-    )
-
-    pdf.multi_cell(0, line_height, 
-        text="Assinatura do Cliente",
-        align="L", 
+        text=f"{card['UF_CRM_1727204145431']}".upper(),
+        align="C", 
         markdown=True,
         ln=1 
     )
