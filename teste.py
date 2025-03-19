@@ -1,4 +1,5 @@
-import requests
+#import requests
+import datetime
 import base64
 from main import *
 from func import *
@@ -49,8 +50,15 @@ def main():
 
     # func.upload_files("12558", [{"caminho": caminho, "campo": "UF_CRM_1728310643", "nome": "declaracao"}, 
     #     {"caminho": laudo, "campo": "UF_CRM_1727210242545", "nome": "laudo"}])
+    card = get_card(45024)
+    estado = card["UF_CRM_1727977680889"]
+    print(estado)
+    print(estado_correspondente(estado))
+    #print(dt)
 
-    get_refresh_token()
+    #gerar_declaracao.gerar_declaracao(card)
+    #gerar_laudo.gerar_laudo(card)
+    #get_refresh_token()
 
 if __name__ == "__main__":
     main()

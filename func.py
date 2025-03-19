@@ -50,7 +50,7 @@ def get_acess_token() -> str:
     url = f"https://oauth.bitrix.info/oauth/token/?grant_type=refresh_token&client_id={client_id}&client_secret={client_secret}&refresh_token={refresh_token}"
 
     response = requests.get(url)
-    print(response.text) 
+    #print(response.text) 
     if response.status_code == 200:
         dados = response.json()
         refresh_token_update(dados["refresh_token"])
@@ -219,59 +219,59 @@ def capacidade_correspondente(codigo: str) -> str:
 
 def estado_correspondente(codigo: str) -> str:
     match codigo:
-        case "308":
+        case "7694":
             return "Acre"
-        case "310":
+        case "7696":
             return "Alagoas"
-        case "312":
+        case "7698":
             return "Amapá"
-        case "314":
+        case "7700":
             return "Amazonas"
-        case "316":
+        case "7702":
             return "Bahia"
-        case "318":
+        case "7704":
             return "Ceará"
-        case "320":
+        case "7706":
             return "Distrito Federal"
-        case "322":
+        case "7708":
             return "Espírito Santo"
-        case "324":
+        case "7710":
             return "Goiás"
-        case "326":
+        case "7712":
             return "Maranhão"
-        case "328":
+        case "7714":
             return "Mato Grosso"
-        case "330":
+        case "7716":
             return "Mato Grosso do Sul"
-        case "332":
+        case "7718":
             return "Minas Gerais"
-        case "334":
+        case "7720":
             return "Pará"
-        case "336":
+        case "7722":
             return "Paraíba"
-        case "338":
+        case "7724":
             return "Paraná"
-        case "340":
+        case "7726":
             return "Pernambuco"
-        case "342":
+        case "7728":
             return "Piauí"
-        case "344":
+        case "7730":
             return "Rio de Janeiro"
-        case "346":
+        case "7732":
             return "Rio Grande do Norte"
-        case "348":
+        case "7734":
             return "Rio Grande do Sul"
-        case "350":
+        case "7736":
             return "Rondônia"
-        case "352":
+        case "7738":
             return "Roraima"
-        case "354":
+        case "7740":
             return "Santa Catarina"
-        case "356":
+        case "7742":
             return "São Paulo"
-        case "358":
+        case "7744":
             return "Sergipe"
-        case "360":
+        case "7746":
             return "Tocantins"
         case _:
             return ""
