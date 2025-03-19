@@ -14,18 +14,21 @@ async def gerar_relatorios(id: str):
     except requests.exceptions.RequestException as err:
         raise HTTPException(status_code=500, detail=f"Erro de conexão ao Bitrix24: {err}")
     
+    print("card encontrado")
     try:
         declaracao = gerar_declaracao.gerar_declaracao(card)
         laudo = gerar_laudo.gerar_laudo(card)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erro ao gerar relatórios: {e}")
     
+    print("cards gerados")
     try:
         func.upload_files(id, [{"caminho": declaracao, "campo": "UF_CRM_1728310643", "nome": "declaracao"}, 
             {"caminho": laudo, "campo": "UF_CRM_1727210242545", "nome": "laudo"}])
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erro ao fazer upload dos arquivos: {e}")
 
+    print("upload feito")
     return {"sucesso": True}
 
 @app.get("/auth")
