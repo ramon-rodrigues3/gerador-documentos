@@ -23,7 +23,7 @@ def gerar_laudo(card):
 
     laudo.multi_cell(0, line_height, "", 0, "C", markdown=True, ln=1)
 
-    laudo.multi_cell(0, line_height, f'**DEFEITO RECLAMADO:** Deformação do reservatório de água feito em {material_correspondente(card["UF_CRM_1727204729359"])} marca FIBRASOL, com capacidade de armazenamento de {capacidade_correspondente(card["UF_CRM_1727204841910"])}. ', 0, "J", markdown=True, ln=1)
+    laudo.multi_cell(0, line_height, f'**DEFEITO RECLAMADO:** {defeito_correspondente(card["UF_CRM_1727204729359"])} marca FIBRASOL, com capacidade de armazenamento de {capacidade_correspondente(card["UF_CRM_1727204841910"])}. ', 0, "J", markdown=True, ln=1)
 
     laudo.multi_cell(0, line_height, "", 0, "C", markdown=True, ln=1)
 
@@ -31,7 +31,7 @@ def gerar_laudo(card):
 
     laudo.multi_cell(0, line_height, "", 0, "C", markdown=True, ln=1)
 
-    laudo.multi_cell(0, line_height, f'**INTRODUÇÃO:** No dia {formatar_data_por_extenso(card["UF_CRM_1727204059184"])}, o reclamante comunicou à fabricante que o reservatório adquirido naquela loja, citada acima, tinha sofrido uma deformação, apresentando fotos para comprovar a referida deformação. Por sua vez a fabricante encaminhou no dia posterior o representante Marcelo Lima de Moraes, para fazer alguns registros do ocorrido.', 0, "J", markdown=True, ln=1)
+    laudo.multi_cell(0, line_height, f'**INTRODUÇÃO:** No dia {formatar_data_por_extenso(card["UF_CRM_1727204059184"])}, o reclamante comunicou à fabricante que o reservatório adquirido naquela loja, citada acima, tinha sofrido uma deformação, apresentando fotos para comprovar a referida deformação.', 0, "J", markdown=True, ln=1)
 
     laudo.multi_cell(0, line_height, "", 0, "C", markdown=True, ln=1)
 
@@ -42,7 +42,7 @@ def gerar_laudo(card):
     laudo.multi_cell(0, 12.7, "Seguem abaixo as irregularidades detectadas:", 0, "J", markdown=True, ln=1)
 
     for i in range(0, len(card["UF_CRM_1727204591503"])):
-        laudo.multi_cell(0, line_height, f"   {i + 1}) {defeito_correspondente(str(card['UF_CRM_1727204591503'][i]))}", 0, "J", markdown=True, ln=1)
+        laudo.multi_cell(0, line_height, f"   {i + 1}) {irregularidade_correspondente(str(card['UF_CRM_1727204591503'][i]))}", 0, "J", markdown=True, ln=1)
 
     laudo.multi_cell(0, 12.7, "O item 3 do Termo de Garantia, assim dispõe:", 0, "J", markdown=True, ln=1)
 

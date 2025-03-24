@@ -170,6 +170,15 @@ def get_ano(data):
 
 def defeito_correspondente(codigo: str) -> str:
     match codigo:
+        case "234":
+            return "Fissura do reservatório de água feito em fibra de vidro"
+        case "236":
+            return "Deformação do reservatório de água feito em polietileno"
+        case _: 
+            return " "
+
+def irregularidade_correspondente(codigo: str) -> str:
+    match codigo:
         case "218": 
             return "Reservatório instalado diretamente no chão."
         case "220": 
