@@ -40,7 +40,7 @@ def gerar_declaracao(card: dict):
 
     pdf.set_font('arial', size=14)
     pdf.multi_cell(0, line_height, 
-        text=f"{card["UF_CRM_1727978359495"]}-{estado_correspondente(card["UF_CRM_1727977680889"])}, {dt.datetime.now().strftime("%d/%m/%Y")}".upper(),
+        text=f"{card["UF_CRM_1727978359495"].strip()} - {estado_correspondente(card["UF_CRM_1727977680889"])}, {dt.datetime.now().strftime("%d/%m/%Y")}".upper(),
         align="L", 
         markdown=True,
         ln=1 
