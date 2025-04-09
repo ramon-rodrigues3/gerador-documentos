@@ -50,9 +50,9 @@ def main():
 
     # func.upload_files("12558", [{"caminho": caminho, "campo": "UF_CRM_1728310643", "nome": "declaracao"}, 
     #     {"caminho": laudo, "campo": "UF_CRM_1727210242545", "nome": "laudo"}])
-    card = get_card(45024)
-    irregularidade = card['UF_CRM_1727204591503']
-    print(irregularidade_correspondente(str(irregularidade[0])))
+    card = get_card(47598)
+    capacidade = card['UF_CRM_1727204841910']
+    print(capacidade_correspondente(capacidade))
     #print(dt)
 
     #gerar_declaracao.gerar_declaracao(card)
