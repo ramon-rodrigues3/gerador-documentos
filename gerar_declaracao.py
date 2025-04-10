@@ -23,7 +23,7 @@ def gerar_declaracao(card: dict):
     pdf.cell(0, line_height, "", align="C", markdown=True, ln=1)
 
     pdf.multi_cell(0, line_height, 
-        text=f"**Devido à inexistência de vícios no referido produto**, declaro que aceito a proposta apresentada, por mera liberalidade, pela empresa **FIBRASOL**, a qual se dispõe a fazer a troca do produto por outro semelhante (com tampa e sem custo), com intermédio da empresa revendedora.", 
+        text=f"**Devido à inexistência de vícios no referido produto**, declaro que aceito a proposta apresentada, por mera liberalidade, pela empresa **FIBRASOL**, a qual se dispõe a {card["UF_CRM_1727210375909"].strip()}, com intermédio da empresa revendedora.", 
         align="J", markdown=True
     )
 

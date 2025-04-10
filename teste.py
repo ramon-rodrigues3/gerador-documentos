@@ -51,7 +51,9 @@ def main():
     # func.upload_files("12558", [{"caminho": caminho, "campo": "UF_CRM_1728310643", "nome": "declaracao"}, 
     #     {"caminho": laudo, "campo": "UF_CRM_1727210242545", "nome": "laudo"}])
     card = get_card(47598)
+    proposta = card["UF_CRM_1727210375909"]
     capacidade = card['UF_CRM_1727204841910']
+    print(f"'{proposta.strip()}'")
     print(capacidade_correspondente(capacidade))
     #print(dt)
 
