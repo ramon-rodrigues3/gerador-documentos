@@ -110,8 +110,10 @@ def upload_files(id, lista) -> None:
     for arquivo in lista:
         campo = arquivo["campo"]
         file = arquivo["caminho"]
-        encoded_file = base64.b64encode(file.read()).decode('utf-8')
+        incluir_id = arquivo.get("incluir_id", False)
 
+        encoded_file = base64.b64encode(file.read()).decode('utf-8')
+        nome_arquivo = arquivo['nome'] + '-' + id + '.pdf' if incluir_id else arquivo['nome']
         url_upload = ROOT_URL + "crm.deal.update.json"
         response = requests.post(
                 url_upload, 
@@ -120,7 +122,7 @@ def upload_files(id, lista) -> None:
                     "ID": id, 
                     "fields": {
                         campo: {
-                            'fileData': [arquivo['nome'] + '-' + id + '.pdf', encoded_file]
+                            'fileData': [nome_arquivo, encoded_file]
                         } 
                     },
                     'auth': acess_token
@@ -288,5 +290,48 @@ def estado_correspondente(codigo: str) -> str:
             return "Sergipe"
         case "7746":
             return "Tocantins"
+        case _:
+            return ""
+        
+def proposta_correspondente(codigo: str) -> str:
+    match codigo:
+        case "7812":
+            return "conceder um desconto de 10% na aquisição de um novo reservatório, similar ao sinistrado."
+        case "7814":
+            return "conceder um desconto de 15% na aquisição de um novo reservatório, similar ao sinistrado."
+        case "7816":
+            return "conceder um desconto de 20% na aquisição de um novo reservatório, similar ao sinistrado."
+        case "7818":
+            return "conceder um desconto de 25% na aquisição de um novo reservatório, similar ao sinistrado."
+        case "7820":
+            return "conceder um desconto de 30% na aquisição de um novo reservatório, similar ao sinistrado."
+        case "7822":
+            return "conceder um desconto de 35% na aquisição de um novo reservatório, similar ao sinistrado."
+        case "7824":
+            return "conceder um desconto de 40% na aquisição de um novo reservatório, similar ao sinistrado."
+        case "7826":
+            return "conceder um desconto de 45% na aquisição de um novo reservatório, similar ao sinistrado."
+        case "7828":
+            return "conceder um desconto de 50% na aquisição de um novo reservatório, similar ao sinistrado."
+        case "7830":
+            return "conceder um desconto de 55% na aquisição de um novo reservatório, similar ao sinistrado."
+        case "7832":
+            return "conceder um desconto de 60% na aquisição de um novo reservatório, similar ao sinistrado."
+        case "7834":
+            return "conceder um desconto de 65% na aquisição de um novo reservatório, similar ao sinistrado."
+        case "7836":
+            return "conceder um desconto de 70% na aquisição de um novo reservatório, similar ao sinistrado."
+        case "7838":
+            return "conceder um desconto de 75% na aquisição de um novo reservatório, similar ao sinistrado."
+        case "7840":
+            return "conceder um desconto de 80% na aquisição de um novo reservatório, similar ao sinistrado."
+        case "7842":
+            return "conceder um desconto de 85% na aquisição de um novo reservatório, similar ao sinistrado."
+        case "7844":
+            return "conceder um desconto de 90% na aquisição de um novo reservatório, similar ao sinistrado."
+        case "7846":
+            return "conceder um desconto de 95% na aquisição de um novo reservatório, similar ao sinistrado."
+        case "7848":
+            return "enviar um novo reservatório, similar ao sinistrado, sem custos."
         case _:
             return ""

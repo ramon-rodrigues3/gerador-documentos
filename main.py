@@ -4,6 +4,18 @@ import requests, func, gerar_declaracao, gerar_laudo
 
 app = FastAPI()
 
+def ler_pdf_em_bytes(caminho):
+    try: 
+        with open(caminho, 'rb') as file:
+            file_bytes = file.read()
+            return file_bytes
+    except FileNotFoundError:
+        print(f"Falha ao ler arquivo: {caminho}")
+        raise
+    except Exception as e:
+        print(f"Falha inesperada ao ler arquivo: {e}")
+        raise
+
 @app.get('/gerar-relatorios/{id}')
 @app.post('/gerar-relatorios/{id}')
 async def gerar_relatorios(id: str):
@@ -17,14 +29,23 @@ async def gerar_relatorios(id: str):
     
     try:
         declaracao = gerar_declaracao.gerar_declaracao(card)
-        laudo = gerar_laudo.gerar_laudo(card)
+        #laudo = gerar_laudo.gerar_laudo(card)
     except Exception as e:
         print(f"Erro ao gerar relatórios: {e}")
         raise HTTPException(status_code=500, detail=f"Erro ao gerar relatórios: {e}")
+
+    termo_garantia = ler_pdf_em_bytes("docs/TERMO DE GARANTIA 2024.pdf")
+    manual_instalacao = ler_pdf_em_bytes("docs/MANUAL DE INSTALAÇÃO FIBRASOL 2024.pdf")
+    catalogo_tecnico = ler_pdf_em_bytes("docs/CATÁLOGO TÉCNICO - FIBRASOL_2024. (1)-compactado.pdf")
     
     try:
-        func.upload_files(id, [{"caminho": declaracao, "campo": "UF_CRM_1728310643", "nome": "declaracao"}, 
-            {"caminho": laudo, "campo": "UF_CRM_1727210242545", "nome": "laudo"}])
+        func.upload_files(id, [
+            {"caminho": declaracao, "campo": "UF_CRM_1728310643", "nome": "declaracao", "incluir_id": True}, 
+            #{"caminho": laudo, "campo": "UF_CRM_1727210242545", "nome": "laudo"}
+            {"caminho": termo_garantia, "campo": "UF_CRM_1745342775495", "nome": "TERMO DE GARANTIA 2024.pdf"},
+            {"caminho": manual_instalacao, "campo": "UF_CRM_1745342810726", "nome": "MANUAL DE INSTALAÇÃO FIBRASOL 2024.pdf"},
+            {"caminho": catalogo_tecnico, "campo": "UF_CRM_1745342871251", "nome": "CATÁLOGO TÉCNICO - FIBRASOL_2024. (1)-compactado.pdf"},
+        ])
     except Exception as e:
         print(f"Erro ao fazer upload dos arquivos: {e}")
         raise HTTPException(status_code=500, detail=f"Erro ao fazer upload dos arquivos: {e}")
