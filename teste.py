@@ -51,10 +51,10 @@ def main():
     # func.upload_files("12558", [{"caminho": caminho, "campo": "UF_CRM_1728310643", "nome": "declaracao"}, 
     #     {"caminho": laudo, "campo": "UF_CRM_1727210242545", "nome": "laudo"}])
     #termo_garantia = ler_pdf_em_bytes("docs/TERMO DE GARANTIA 2024.pdf")
-    upload_files(48466, [
-        {"caminho": "docs/TERMO DE GARANTIA 2024.pdf", "campo": "UF_CRM_1745342775495", "nome": "TERMO DE GARANTIA 2024.pdf"}
-    ])
-    #card = get_card(48466)
+
+    card = get_card(48466)
+    print(card["UF_CRM_1746543811"])
+    print(proposta_correspondente(card["UF_CRM_1746543811"]))
 
     #print(dt)
 

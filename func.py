@@ -297,43 +297,43 @@ def estado_correspondente(codigo: str) -> str:
         
 def proposta_correspondente(codigo: str) -> str:
     match codigo:
-        case "7812":
+        case "7960":
             return "conceder um desconto de 10% na aquisição de um novo reservatório, similar ao sinistrado"
-        case "7814":
+        case "7962":
             return "conceder um desconto de 15% na aquisição de um novo reservatório, similar ao sinistrado"
-        case "7816":
+        case "7964":
             return "conceder um desconto de 20% na aquisição de um novo reservatório, similar ao sinistrado"
-        case "7818":
+        case "7966":
             return "conceder um desconto de 25% na aquisição de um novo reservatório, similar ao sinistrado"
-        case "7820":
+        case "7968":
             return "conceder um desconto de 30% na aquisição de um novo reservatório, similar ao sinistrado"
-        case "7822":
+        case "7970":
             return "conceder um desconto de 35% na aquisição de um novo reservatório, similar ao sinistrado"
-        case "7824":
+        case "7972":
             return "conceder um desconto de 40% na aquisição de um novo reservatório, similar ao sinistrado"
-        case "7826":
+        case "7974":
             return "conceder um desconto de 45% na aquisição de um novo reservatório, similar ao sinistrado"
-        case "7828":
+        case "7976":
             return "conceder um desconto de 50% na aquisição de um novo reservatório, similar ao sinistrado"
-        case "7830":
+        case "7978":
             return "conceder um desconto de 55% na aquisição de um novo reservatório, similar ao sinistrado"
-        case "7832":
+        case "7980":
             return "conceder um desconto de 60% na aquisição de um novo reservatório, similar ao sinistrado"
-        case "7834":
+        case "7982":
             return "conceder um desconto de 65% na aquisição de um novo reservatório, similar ao sinistrado"
-        case "7836":
+        case "7984":
             return "conceder um desconto de 70% na aquisição de um novo reservatório, similar ao sinistrado"
-        case "7838":
+        case "7986":
             return "conceder um desconto de 75% na aquisição de um novo reservatório, similar ao sinistrado"
-        case "7840":
+        case "7988":
             return "conceder um desconto de 80% na aquisição de um novo reservatório, similar ao sinistrado"
-        case "7842":
+        case "7990":
             return "conceder um desconto de 85% na aquisição de um novo reservatório, similar ao sinistrado"
-        case "7844":
+        case "7992":
             return "conceder um desconto de 90% na aquisição de um novo reservatório, similar ao sinistrado"
-        case "7846":
+        case "7994":
             return "conceder um desconto de 95% na aquisição de um novo reservatório, similar ao sinistrado"
-        case "7848":
+        case "7996":
             return "enviar um novo reservatório, similar ao sinistrado, sem custos"
         case _:
             return ""
