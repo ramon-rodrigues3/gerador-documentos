@@ -52,7 +52,8 @@ def main():
     #     {"caminho": laudo, "campo": "UF_CRM_1727210242545", "nome": "laudo"}])
     #termo_garantia = ler_pdf_em_bytes("docs/TERMO DE GARANTIA 2024.pdf")
 
-    card = get_card(48466)
+    card = get_card('56086')
+    print(type(card.get('STAGE_ID')))
     print(card["UF_CRM_1746543811"])
     print(proposta_correspondente(card["UF_CRM_1746543811"]))
 

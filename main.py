@@ -69,8 +69,9 @@ def verificar_duplicatas(id: str):
     id_negocio = negocio.get('ID')
     estagio_negocio = negocio.get('STAGE_ID')
     codigo_cliente_negocio = negocio.get('UF_CRM_1716208405435')
+    pipeline_negocio = negocio.get('CATEGORY_ID')
 
-    if estagio_negocio != 'NEW':
+    if estagio_negocio != 'NEW' or pipeline_negocio != '0':
         return JSONResponse(
             {
                 "error": {
