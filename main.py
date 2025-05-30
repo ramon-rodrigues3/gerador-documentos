@@ -54,7 +54,7 @@ async def receber_autorizacao(code: str, state: str, domain: str, member_id: str
     func.refresh_token_update(token)
     return HTMLResponse(open("pages/sucess.html").read())
 
-@app.get('/verificar-duplicatas')
+@app.post('/verificar-duplicatas')
 def verificar_duplicatas(id: str):
 
     def diferenca_dias(data: str) -> int:
