@@ -77,6 +77,7 @@ def verificar_duplicatas(id: str):
                 "error": {
                     "code": "FORBIDDEN_DELETION_CONSTRAINT",
                     "message": "Este Negócio não é verificável da coluna atual",
+                    "info": f"STAGE_ID: {estagio_negocio} | CATEGORY_ID: {pipeline_negocio}"
                 }
             }, 
             status_code=403

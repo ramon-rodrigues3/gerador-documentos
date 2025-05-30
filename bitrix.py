@@ -98,7 +98,7 @@ def deal_get(id: int) -> dict:
     if resposta.status_code != 200:
         raise requests.ConnectionError(f'Erro de Conexão: {resposta.status_code}')
 
-    return resposta.json()
+    return resposta.json()['result']
 
 @retry(wait=wait_fixed(2), stop=stop_after_attempt(3))
 def deal_add(campos: dict) -> dict:
