@@ -77,12 +77,24 @@ def verificar_duplicatas(id: str):
                 "error": {
                     "code": "FORBIDDEN_DELETION_CONSTRAINT",
                     "message": "Este Negócio não é verificável da coluna atual",
-                    "info": f"STAGE_ID: {estagio_negocio} | CATEGORY_ID: {pipeline_negocio}"
+                    "details": f"STAGE_ID: {estagio_negocio} | CATEGORY_ID: {pipeline_negocio}"
                 }
             }, 
             status_code=403
         )
     
+    if not codigo_cliente_negocio:
+        return JSONResponse(
+            {
+                "error": {
+                    "code": "MISSING_REQUIRED_FIELD",
+                    "message": "O código do cliente (UF_CRM_1716208405435) é um campo obrigatório e não foi encontrado ou está vazio para o negócio fornecido.",
+                    "details": "Não é possível verificar duplicatas sem um código de cliente válido."
+                }
+            }, 
+            status_code=400
+        )
+
     negocios_do_mesmo_cliente = bitrix.deal_list(
         {
             "=UF_CRM_1716208405435": codigo_cliente_negocio,
