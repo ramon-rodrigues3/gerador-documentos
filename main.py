@@ -1,6 +1,8 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse, HTMLResponse, RedirectResponse
 import requests, func, gerar_declaracao, gerar_laudo
+from datetime import datetime, date
+import bitrix
 
 app = FastAPI()
 
@@ -51,3 +53,104 @@ async def receber_autorizacao(code: str, state: str, domain: str, member_id: str
     token = retorno.json()["refresh_token"]
     func.refresh_token_update(token)
     return HTMLResponse(open("pages/sucess.html").read())
+
+@app.get('/verificar-duplicatas')
+def verificar_duplicatas(id: str):
+
+    def diferenca_dias(data: str) -> int:
+        data = datetime.fromisoformat(data).date()
+        data_atual = date.today()
+
+        return (data_atual - data).days
+
+
+    negocio = bitrix.deal_get(id)
+
+    id_negocio = negocio.get('ID')
+    estagio_negocio = negocio.get('STAGE_ID')
+    codigo_cliente_negocio = negocio.get('UF_CRM_1716208405435')
+
+    if estagio_negocio != 'NEW':
+        return JSONResponse(
+            {
+                "error": {
+                    "code": "FORBIDDEN_DELETION_CONSTRAINT",
+                    "message": "Este Negócio não é verificável da coluna atual",
+                }
+            }, 
+            status_code=403
+        )
+    
+    negocios_do_mesmo_cliente = bitrix.deal_list(
+        {
+            "=UF_CRM_1716208405435": codigo_cliente_negocio,
+            "!ID": id_negocio,
+            "CATEGORY_ID": 0
+        },
+        ['STAGE_ID', 'STAGE_SEMANTIC_ID', 'CLOSEDATE']
+    )
+
+    if not negocios_do_mesmo_cliente:
+        return JSONResponse(
+            {
+                "status": "success", 
+                "message": "Item não é duplicado.", 
+                "is_duplicate": False 
+            },
+            status_code=200
+        )
+    
+    for outro in negocios_do_mesmo_cliente:
+        outro_estagio = outro.get('STAGE_ID')
+        outro_estagio_semantico = outro.get('STAGE_SEMANTIC_ID')
+        outro_data_fechameto = outro.get('CLOSEDATE')
+
+        if outro_estagio_semantico.upper() == 'P':
+            bitrix.deal_delete(id)
+            return JSONResponse(
+                {
+                    "status": "success",
+                    "message": "Negócio duplicado detectado e excluído com sucesso.",
+                    "is_duplicate": True,
+                    "deleted_item_id": id
+                },
+                status_code=200
+            )
+
+        if not outro_data_fechameto:
+            continue
+
+        diferenca = diferenca_dias(outro_data_fechameto)
+
+        if outro_estagio == 'WON' and diferenca < 45:
+            bitrix.deal_delete(id)
+            return JSONResponse(
+                {
+                    "status": "success",
+                    "message": "Negócio duplicado detectado e excluído com sucesso.",
+                    "is_duplicate": True,
+                    "deleted_item_id": id
+                },
+                status_code=200
+            )
+
+        if outro_estagio in ['LOSE', 'UC_388957'] and diferenca < 15:
+            bitrix.deal_delete(id)
+            return JSONResponse(
+                {
+                    "status": "success",
+                    "message": "Negócio duplicado detectado e excluído com sucesso.",
+                    "is_duplicate": True,
+                    "deleted_item_id": id
+                },
+                status_code=200
+            )
+
+    return JSONResponse(
+        {
+            "status": "success", 
+            "message": "Item não é duplicado.", 
+            "is_duplicate": False 
+        },
+        status_code=200
+    )
