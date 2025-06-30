@@ -198,7 +198,11 @@ def irregularidade_correspondente(codigo: str) -> str:
         case "230": 
             return "Motor bomba instalado sem a devida ancoragem, transmitindo vibração para a caixa d'água."
         case "7802":
-            return "Reparo impróprio"
+            return "Reparo impróprio."
+        case "8032":
+            return "Base desnivelada."
+        case "8034":
+            return "Estrutura imprópria para peso do reservatório."
         case _: 
             return " "
         
