@@ -168,3 +168,66 @@ def verificar_duplicatas(id: str):
         },
         status_code=200
     )
+
+@app.post('/verificar-credito')
+def verificar_credito(id: str):
+    negocio = bitrix.deal_get(id)
+
+    estagio = negocio.get('STAGE_ID')
+    pipeline = negocio.get("CATEGORY_ID")
+
+    if estagio != "C16:EXECUTING" or pipeline != "16":
+        return JSONResponse(
+            {
+                "error": {
+                    "code": "FORBIDDEN_DELETION_CONSTRAINT",
+                    "message": "Este Negócio não é verificável da coluna atual",
+                    "details": f"STAGE_ID: {estagio} | CATEGORY_ID: {pipeline}"
+                }
+            }, 
+            status_code=403
+        )
+
+    codigo_cliente = negocio.get('UF_CRM_1716208405435')
+
+    if not codigo_cliente:
+        return JSONResponse(
+            {
+                "error": {
+                    "code": "MISSING_REQUIRED_FIELD",
+                    "message": "O código do cliente (UF_CRM_1716208405435) é um campo obrigatório e não foi encontrado ou está vazio para o negócio fornecido.",
+                    "details": "Não é possível verificar crédito sem um código de cliente válido."
+                }
+            }, 
+            status_code=400
+        )
+
+    equivalente_em_cobranca = bitrix.deal_list(
+        {
+            "CATEGORY_ID": '12',
+            "!STAGE_ID": ['C12:WON'],
+            "=UF_CRM_1716208405435": codigo_cliente
+        },
+        []
+    )
+
+    if equivalente_em_cobranca:
+        bitrix.deal_update(id, {"STAGE_ID": "C16:UC_IMYYXY"})
+        return JSONResponse(
+        {
+            "status": "success", 
+            "message": "O cliente está no funil de cobrança. Negócio enviado para 'Cobrança Prioritária'.", 
+            "in_cobranca": True 
+        },
+        status_code=200
+    )
+    else:
+        bitrix.deal_update(id, {"STAGE_ID": "C16:FINAL_INVOICE"})
+        return JSONResponse(
+        {
+            "status": "success", 
+            "message": "O cliente não está no funil de cobrança. Negócio enviado para 'Pronto para Entrega'.", 
+            "in_cobranca": False 
+        },
+        status_code=200
+    )
