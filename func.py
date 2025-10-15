@@ -212,6 +212,10 @@ def material_correspondente(codigo: str) -> str:
             return "Fibra de vidro"
         case "236":
             return "Polietileno"
+        case "8056":
+            return "Tanque fechado"
+        case "8058":
+            return "Cisterna"
         case _: 
             return " "
 
